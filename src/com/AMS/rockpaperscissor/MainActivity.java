@@ -1,6 +1,8 @@
 package com.AMS.rockpaperscissor;
 
+import android.animation.IntEvaluator;
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,15 +12,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
 	private RadioGroup radioSexGroup;
 	private RadioButton radioSexButton;
-	private Button btnSubmit;
+	public final static String NAME = "com.AMS.rockpaperscissor.NAME";
 	DBAdapter myDb;
 	  
 	@Override
@@ -40,7 +44,6 @@ public class MainActivity extends Activity {
 	{
 		myDb = new DBAdapter(this);
 		myDb.open();
-		displayText("DB Opened!!");
 	}
 	
 	private void closeDB() {
@@ -55,27 +58,53 @@ public class MainActivity extends Activity {
 	
 	public void onSubmit(View view) 
 	{
-		
+		EditText editName = (EditText) findViewById(R.id.edit_name);
+		EditText enterAge = (EditText) findViewById(R.id.edit_age);
+		String sName = editName.getText().toString();
+		String sAge = enterAge.getText().toString(); 
 		radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
-		btnSubmit = (Button) findViewById(R.id.btnSubmit);
 		// get selected radio button from radioGroup
 		int selectedId = radioSexGroup.getCheckedRadioButtonId();
 		// find the radio button by returned id
 	    radioSexButton = (RadioButton) findViewById(selectedId);
+	    String sSex = radioSexButton.getText().toString();
 	    try
 	    {
-	    	long newid = myDb.insertRow("Sai",24 ,"male");
-	   		//Toast.makeText(MainActivity.this,"!!", Toast.LENGTH_SHORT).show();
-
-	   		Cursor cursor = myDb.getAllRows();
-			displayRecordSet(cursor);
-	    } catch(Exception e)
+	    	if (!sName.matches("") && !sAge.matches(""))
+	    	{
+	    		long newid = myDb.insertRow(sName,Integer.parseInt(sAge), sSex);
+	    		Toast.makeText(MainActivity.this,"Record Inserted!!", Toast.LENGTH_SHORT).show();
+	    	}else
+	    	{
+	    		Toast.makeText(MainActivity.this,"Enter valid values !!", Toast.LENGTH_SHORT).show();
+	    	}
+	    	
+	   		
+	    } 
+	    catch(NumberFormatException e) {
+	    	Toast.makeText(MainActivity.this,"Enter valid Age!", Toast.LENGTH_SHORT).show();
+	    }
+	    catch(Exception e)
 	    {
 	    	e.printStackTrace();
 	    }
 	 
 	}
 	
+	public void onStartGame(View view)
+	{
+		Intent intent = new Intent(this, GameActivity.class);
+		EditText editName = (EditText) findViewById(R.id.edit_name);
+		String sName = editName.getText().toString();
+		intent.putExtra(NAME, sName);
+		startActivity(intent);
+	}
+	
+	public void onDisplay(View view) 
+	{
+		Cursor cursor = myDb.getAllRows();
+		displayRecordSet(cursor);
+	}
 	private void displayRecordSet(Cursor cursor) {
 		String message = "";
 		// populate the message from the cursor

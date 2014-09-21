@@ -7,8 +7,7 @@
     tools:ignore="MergeRootFrame" 
     android:orientation="vertical">
   
-    <LinearLayout
-        android:id="@+id/buttonBar"
+   <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" 
         android:orientation="vertical">
@@ -36,20 +35,46 @@
 	            android:layout_height="wrap_content"
 	            android:text="@string/radio_female" />
 	    </RadioGroup>
-	    <Button
+	   <LinearLayout
+        android:id="@+id/buttonBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+	        <Button
 	        android:id="@+id/btnSubmit"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:onClick="onSubmit"
 	        android:text="@string/button_submit" />
+
+	    <Button
+	        android:id="@+id/btnStartGame"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:onClick="onStartGame"
+	        android:text="@string/button_start_game" />
+	    <Button
+	        android:id="@+id/btnDisplay"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:onClick="onDisplay"
+	        android:text="@string/button_display" />  
+	    </LinearLayout>
+	  
+
+ 
     </LinearLayout>
-    <EditText
+
+    <TextView
         android:id="@+id/textDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:ems="10"
-        android:inputType="textMultiLine" >
-    </EditText>
+        android:inputType="textMultiLine"
+        android:maxLines="20"
+        android:scrollbars="vertical" />
+
 </RelativeLayout>
 

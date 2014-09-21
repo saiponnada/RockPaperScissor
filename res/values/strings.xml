@@ -8,6 +8,8 @@
     <string name="radio_male">Male</string>
     <string name="radio_female">Female</string>
     <string name="button_submit">Submit</string>
+    <string name="button_start_game">Start Game</string>
+    <string name="button_display">Get DB data</string>
     <string name="title_activity_game">GameActivity</string>
     <string name="hello_world">Hello world!</string>
 
