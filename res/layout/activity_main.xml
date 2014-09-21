@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
@@ -6,35 +6,50 @@
     tools:context="com.AMS.rockpaperscissor.MainActivity"
     tools:ignore="MergeRootFrame" 
     android:orientation="vertical">
-    
-    <EditText android:id="@+id/edit_name"
+  
+    <LinearLayout
+        android:id="@+id/buttonBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:orientation="vertical">
+        <EditText android:id="@+id/edit_name"
 	    android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/edit_name" />
-    <EditText android:id="@+id/edit_age"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:hint="@string/edit_age" />
-	<RadioGroup
-        android:id="@+id/radioSex"
+	    <EditText android:id="@+id/edit_age"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:hint="@string/edit_age" />
+		<RadioGroup
+	        android:id="@+id/radioSex"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" >
+	        <RadioButton
+	            android:id="@+id/radioMale"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/radio_male" 
+	            android:checked="true" />
+	        <RadioButton
+	            android:id="@+id/radioFemale"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/radio_female" />
+	    </RadioGroup>
+	    <Button
+	        android:id="@+id/btnSubmit"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:onClick="onSubmit"
+	        android:text="@string/button_submit" />
+    </LinearLayout>
+    <EditText
+        android:id="@+id/textDisplay"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-        <RadioButton
-            android:id="@+id/radioMale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/radio_male" 
-            android:checked="true" />
-        <RadioButton
-            android:id="@+id/radioFemale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/radio_female" />
-    </RadioGroup>
-    <Button
-       android:id="@+id/btnSubmit"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="@string/button_submit"  />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:ems="10"
+        android:inputType="textMultiLine" >
+    </EditText>
+</RelativeLayout>
 
