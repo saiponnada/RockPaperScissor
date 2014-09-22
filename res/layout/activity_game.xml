@@ -8,9 +8,38 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.AMS.rockpaperscissor.GameActivity" >
 
-    <TextView
+    
+    <LinearLayout
+        android:id="@+id/buttonBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+	    <Button
+	        android:id="@+id/btnRock"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:onClick="onClickRock"
+	        android:text="@string/button_rock" />
+	    <Button
+	        android:id="@+id/btnPaper"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:onClick="onClickPaper"
+	        android:text="@string/button_paper" />  
+	        <Button
+	        android:id="@+id/btnScissors"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:onClick="onClickScissors"
+	        android:text="@string/button_scissors" />
+	    </LinearLayout>
+	    
+    <TextView
+        android:id="@+id/textResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:ems="10"
+        android:scrollbars="vertical" />
 </RelativeLayout>
