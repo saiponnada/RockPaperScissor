@@ -1,9 +1,9 @@
 package com.AMS.rockpaperscissor;
 
-import android.animation.IntEvaluator;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,8 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -29,6 +29,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		LinearLayout linearLayout = (LinearLayout)findViewById(R.id.container);
+		linearLayout.setBackgroundColor(Color.parseColor("#fff6df"));
+		linearLayout.invalidate();
 		openDB();
 	}
 	
@@ -58,6 +61,7 @@ public class MainActivity extends Activity {
 	
 	public void onSubmit(View view) 
 	{
+		
 		EditText editName = (EditText) findViewById(R.id.edit_name);
 		EditText enterAge = (EditText) findViewById(R.id.edit_age);
 		String sName = editName.getText().toString();
@@ -70,16 +74,28 @@ public class MainActivity extends Activity {
 	    String sSex = radioSexButton.getText().toString();
 	    try
 	    {
-	    	if (!sName.matches("") && !sAge.matches(""))
+	    	boolean flag = false;
+	    	Cursor cursor = myDb.getByName(sName);
+	    	int count = cursor.getCount();
+	    	if(count==0)
 	    	{
-	    		long newid = myDb.insertRow(sName,Integer.parseInt(sAge), sSex);
-	    		Toast.makeText(MainActivity.this,"Record Inserted!!", Toast.LENGTH_SHORT).show();
-	    	}else
-	    	{
-	    		Toast.makeText(MainActivity.this,"Enter valid values !!", Toast.LENGTH_SHORT).show();
+	    		if (!sName.matches("") && !sAge.matches(""))
+		    	{
+		    		long newid = myDb.insertRow(sName,Integer.parseInt(sAge), sSex);
+		    		flag = true;
+		    		Toast.makeText(MainActivity.this,"Record Inserted!!", Toast.LENGTH_SHORT).show();
+		    	}else
+		    	{
+		    		Toast.makeText(MainActivity.this,"Enter valid values !!", Toast.LENGTH_SHORT).show();
+		    	}
 	    	}
-	    	
-	   		
+	    	if(flag || count==1)
+	    	{
+	    		Intent intent = new Intent(this, GameActivity.class);
+				intent.putExtra(NAME, sName);
+				startActivity(intent);
+		    	cursor.close();
+	    	}
 	    } 
 	    catch(NumberFormatException e) {
 	    	Toast.makeText(MainActivity.this,"Enter valid Age!", Toast.LENGTH_SHORT).show();
@@ -88,16 +104,6 @@ public class MainActivity extends Activity {
 	    {
 	    	e.printStackTrace();
 	    }
-	 
-	}
-	
-	public void onStartGame(View view)
-	{
-		Intent intent = new Intent(this, GameActivity.class);
-		EditText editName = (EditText) findViewById(R.id.edit_name);
-		String sName = editName.getText().toString();
-		intent.putExtra(NAME, sName);
-		startActivity(intent);
 	}
 	
 	public void onDisplay(View view) 
@@ -117,12 +123,17 @@ public class MainActivity extends Activity {
 				String name = cursor.getString(DBAdapter.COL_NAME);
 				int age = cursor.getInt(DBAdapter.COL_AGE);
 				String sex = cursor.getString(DBAdapter.COL_SEX);
-				
+				int win = cursor.getInt(DBAdapter.COL_WIN);
+				int loss = cursor.getInt(DBAdapter.COL_LOSS);
+				int draw = cursor.getInt(DBAdapter.COL_DRAW);
 				// Append data to the message:
 				message += "id=" + id
 						   +", name=" + name
 						   +", age=" + age
 						   +", sex=" + sex
+						   +", win=" + win
+						   +", loss=" + loss
+						   +", draw=" + draw
 						   +"\n";
 			} while(cursor.moveToNext());
 		}

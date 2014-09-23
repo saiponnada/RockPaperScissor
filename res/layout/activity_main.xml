@@ -1,28 +1,42 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.AMS.rockpaperscissor.MainActivity"
-    tools:ignore="MergeRootFrame" 
-    android:orientation="vertical">
-  
-   <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        android:orientation="vertical">
-        <EditText android:id="@+id/edit_name"
-	    android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/edit_name" />
-	    <EditText android:id="@+id/edit_age"
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:hint="@string/edit_age" />
+    tools:ignore="MergeRootFrame" >
+	<LinearLayout 
+	    android:id="@+id/mainLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_margin="20dp"
+	    android:orientation="vertical">
+		    <TextView
+		    android:id="@+id/textName"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginBottom="10dp"
+		    android:text="@string/game_name" />
+
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:hint="@string/edit_name" />
+
+	    <EditText
+	        android:id="@+id/edit_age"
+	        android:layout_width="230dp"
+	        android:layout_height="wrap_content"
+	        android:hint="@string/edit_age" />
+
 		<RadioGroup
 	        android:id="@+id/radioSex"
 	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" >
+	        android:layout_height="wrap_content" 
+	        android:orientation="horizontal">
 	        <RadioButton
 	            android:id="@+id/radioMale"
 	            android:layout_width="wrap_content"
@@ -35,46 +49,27 @@
 	            android:layout_height="wrap_content"
 	            android:text="@string/radio_female" />
 	    </RadioGroup>
-	   <LinearLayout
-        android:id="@+id/buttonBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
-	        <Button
+	    <Button
 	        android:id="@+id/btnSubmit"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
+	        android:layout_marginTop="10dp"
 	        android:onClick="onSubmit"
 	        android:text="@string/button_submit" />
-
-	    <Button
-	        android:id="@+id/btnStartGame"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:onClick="onStartGame"
-	        android:text="@string/button_start_game" />
 	    <Button
 	        android:id="@+id/btnDisplay"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:onClick="onDisplay"
-	        android:text="@string/button_display" />  
-	    </LinearLayout>
-	  
-
- 
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textDisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:maxLines="20"
-        android:scrollbars="vertical" />
-
-</RelativeLayout>
+	        android:text="@string/button_display" />
+	    <TextView
+	        android:id="@+id/textDisplay"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:ems="10"
+	        android:maxLines="20"
+	        android:scrollbars="vertical" />
+	</LinearLayout>
+		  
+</LinearLayout>
 
