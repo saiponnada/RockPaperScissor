@@ -9,31 +9,31 @@ import android.util.Log;
 
 public class DBAdapter {
 
-	/////////////////////////////////////////////////////////////////////
-	//	Constants & Data
-	/////////////////////////////////////////////////////////////////////
-	// For logging:
+
 	private static final String TAG = "DBAdapter";
 	
 	// DB Fields
 	public static final String KEY_ROWID = "_id";
 	public static final int COL_ROWID = 0;
+	public static final int SCORE =0;
 
 	public static final String KEY_NAME = "username";
 	public static final String KEY_AGE = "age";
 	public static final String KEY_SEX = "sex";
-
+	public static final String KEY_WIN = "win";
+	public static final String KEY_LOSS = "loss";
+	public static final String KEY_DRAW = "draw";
+	
 	public static final int COL_NAME = 1;
 	public static final int COL_AGE = 2;
 	public static final int COL_SEX = 3;
-
+	public static final int COL_WIN = 4;
+	public static final int COL_LOSS = 5;
+	public static final int COL_DRAW = 6;
 	
-	public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_NAME, KEY_AGE, KEY_SEX};
-	
-	// DB info: it's name, and the table we are using (just one).
+	public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_NAME, KEY_AGE, KEY_SEX, KEY_WIN, KEY_LOSS, KEY_DRAW};
 	public static final String DATABASE_NAME = "MyDb";
 	public static final String DATABASE_TABLE = "mainTable";
-	// Track DB version if a new version of your app changes the format.
 	public static final int DATABASE_VERSION = 1;	
 	
 	private static final String DATABASE_CREATE_SQL = 
@@ -41,18 +41,15 @@ public class DBAdapter {
 			+ " (" + KEY_ROWID + " integer primary key autoincrement, "
 			+ KEY_NAME + " text not null, "
 			+ KEY_AGE + " integer not null, "
-			+ KEY_SEX + " text not null"
+			+ KEY_SEX + " text not null,"
+			+ KEY_WIN + " integer not null, "
+			+ KEY_LOSS + " integer not null, "
+			+ KEY_DRAW + " integer not null "
 			+ ");";
 	
-	// Context of application who uses us.
 	private final Context context;
-	
 	private DatabaseHelper myDBHelper;
 	private SQLiteDatabase db;
-
-	/////////////////////////////////////////////////////////////////////
-	//	Public methods:
-	/////////////////////////////////////////////////////////////////////
 	
 	public DBAdapter(Context ctx) {
 		this.context = ctx;
@@ -72,11 +69,13 @@ public class DBAdapter {
 	
 	// Add a new set of values to the database.
 	public long insertRow(String name, int age, String sex) {
-
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_NAME, name);
 		initialValues.put(KEY_AGE, age);
 		initialValues.put(KEY_SEX, sex);
+		initialValues.put(KEY_WIN, SCORE);
+		initialValues.put(KEY_LOSS, SCORE);
+		initialValues.put(KEY_DRAW, SCORE);
 		
 		// Insert it into the database.
 		return db.insert(DATABASE_TABLE, null, initialValues);
@@ -121,16 +120,21 @@ public class DBAdapter {
 		return c;
 	}
 	
+	// Get a specific row (by Name)
+		public Cursor getByName(String name) {
+			String where = KEY_NAME + "='"+ name +"'";
+			Cursor c = 	db.query(true, DATABASE_TABLE, ALL_KEYS, 
+							where, null, null, null, null, null);
+			if (c != null) {
+				c.moveToFirst();
+			}
+			return c;
+		}
+	
 	// Change an existing row to be equal to new data.
 	public boolean updateRow(long rowId, String name, int age, String sex) {
 		String where = KEY_ROWID + "=" + rowId;
-
-		/*
-		 * CHANGE 4:
-		 */
-		// TODO: Update data in the row with new fields.
-		// TODO: Also change the function's arguments to be what you need!
-		// Create row's data:
+		
 		ContentValues newValues = new ContentValues();
 		newValues.put(KEY_NAME, name);
 		newValues.put(KEY_AGE, age);
@@ -140,14 +144,31 @@ public class DBAdapter {
 		return db.update(DATABASE_TABLE, newValues, where, null) != 0;
 	}
 	
-	/////////////////////////////////////////////////////////////////////
-	//	Private Helper Classes:
-	/////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * Private class which handles database creation and upgrading.
-	 * Used to handle low-level database access.
-	 */
+	public boolean updateScore(String name, String status) {
+		String where = KEY_NAME + "='"+ name +"'";
+		ContentValues newValues = new ContentValues();
+		Cursor c = getByName(name);
+		
+		int winCount = c.getInt(COL_WIN);
+		int lossCount = c.getInt(COL_LOSS);
+		int drawCount = c.getInt(COL_DRAW);
+		
+		if(status =="win")
+			winCount = winCount+1;
+		else if(status =="loss")
+			lossCount = lossCount+1;
+		else if(status =="draw")
+			drawCount = drawCount+1;
+		
+		newValues.put(KEY_WIN, winCount);
+		newValues.put(KEY_LOSS, lossCount);
+		newValues.put(KEY_DRAW, drawCount);
+
+		
+		// Insert it into the database.
+		return db.update(DATABASE_TABLE, newValues, where, null) != 0;
+	}
+
 	private static class DatabaseHelper extends SQLiteOpenHelper
 	{
 		DatabaseHelper(Context context) {
