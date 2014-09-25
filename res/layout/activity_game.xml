@@ -8,8 +8,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.AMS.rockpaperscissor.GameActivity" >
 
-    
-    <LinearLayout
+    <!--
+         <LinearLayout
         android:id="@+id/buttonBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,12 +34,87 @@
 	        android:onClick="onClickScissors"
 	        android:text="@string/button_scissors" />
 	    </LinearLayout>
-	    
+    -->
+
     <TextView
-        android:id="@+id/textResult"
+        android:id="@+id/textLoss"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:ems="10"
-        android:scrollbars="vertical" />
+        android:layout_centerHorizontal="true"
+        android:text="@string/loss"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textDraws"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/draws"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textWins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/wins"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/welcomeString"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="@string/swipeHere"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ImageView
+        android:id="@+id/imageComputer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textDraws"
+        android:layout_alignTop="@+id/imageUser"
+        android:src="@drawable/paper" />
+
+    <TextView
+        android:id="@+id/textComputer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textUser"
+        android:layout_toLeftOf="@+id/imageComputer"
+        android:text="@string/hello_world"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/textUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textWins"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="57dp"
+        android:text="@string/hello_world"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ImageView
+        android:id="@+id/imageUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textLoss"
+        android:layout_marginBottom="42dp"
+        android:layout_toLeftOf="@+id/textLoss"
+        android:src="@drawable/scissors" />
+
 </RelativeLayout>

@@ -1,18 +1,32 @@
 package com.AMS.rockpaperscissor;
 
 import java.util.Random;
+
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class GameActivity extends ActionBarActivity {
+public class GameActivity extends ActionBarActivity implements 
+GestureDetector.OnGestureListener,
+GestureDetector.OnDoubleTapListener{
 	
 	DBAdapter myDb;
-	String userName;
+	static String userName;
+	
+	private static final String DEBUG_TAG = "Gestures";
+	private GestureDetectorCompat mDetector; 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -20,6 +34,8 @@ public class GameActivity extends ActionBarActivity {
 		Intent intent = getIntent();
 		userName = intent.getStringExtra(MainActivity.NAME).toString();
 		openDB();
+		mDetector = new GestureDetectorCompat(this,this);
+		mDetector.setOnDoubleTapListener(this);
 	}
 	
 	@Override
@@ -38,6 +54,13 @@ public class GameActivity extends ActionBarActivity {
 	private void closeDB() {
 		// TODO Auto-generated method stub
 		myDb.close();
+	}
+	
+	@Override 
+	public boolean onTouchEvent(MotionEvent event){ 
+	this.mDetector.onTouchEvent(event);
+	// Be sure to call the superclass implementation
+	return super.onTouchEvent(event);
 	}
 	
 	@Override
@@ -59,80 +82,82 @@ public class GameActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void onClickRock(View view) 
+	/*public void onClickRock(View view) 
 	{
 		String result = game(1);
-		displayResult(result);
+		//displayResult(result);
 	}
 	
 	public void onClickPaper(View view) 
 	{
 		String result = game(2);
-		displayResult(result);
+		//displayResult(result);
 	}
 	
 	public void onClickScissors(View view) 
 	{
 		String result = game(3);
-		displayResult(result);
-	}
+		//displayResult(result);
+	}*/
 	
 	public String game(int userSelection){
 		String resultMessage="";
 		Random rand = new Random();
 		int randomNum = rand.nextInt(3) + 1;
 		String status;
+		displayUserImage(userSelection);
+		displayComputerImage(randomNum);
 		if(userSelection == 1){
-			resultMessage += "Your Selection: Rock | ";
+			//resultMessage += userName + ": Rock \t ";
 			if(randomNum == 2)
 			{
-				resultMessage += "Computer Selection: Paper | YOU LOSE! TRY AGAIN!";
+				resultMessage += "YOU LOSE! TRY AGAIN!";
 				status ="loss";
 			}
 			else if(randomNum == 1)
 			{
-				resultMessage += "Computer Selection: Rock | DRAW! TRY AGAIN!";
+				resultMessage += "DRAW! TRY AGAIN!";
 				status = "win";
 			}
 			else 
 			{
-				resultMessage += "Computer Selection: Scissors | YOU WIN! CONGRATULATIONS!";
+				resultMessage += "YOU WIN! CONGRATULATIONS!";
 				status = "draw";
 			}		
 		}
 		else if(userSelection == 2){
-			resultMessage += "Your Selection: Paper | ";
+			//resultMessage += userName + ": Paper \t ";
 			if(randomNum == 3) 
 			{
-				resultMessage += "Computer Selection: Rock | YOU WIN! CONGRATULATIONS!";
+				resultMessage += "YOU WIN! CONGRATULATIONS!";
 				status = "win";
 			}
 			else if(randomNum == 2)
 			{
-				resultMessage += "Computer Selection: Paper | DRAW! TRY AGAIN!";
+				resultMessage += "DRAW! TRY AGAIN!";
 				status = "draw";
 			}
 			else 
 			{
-				resultMessage += "Computer Selection: Scissors | YOU LOSE! TRY AGAIN!";
+				resultMessage += "YOU LOSE! TRY AGAIN!";
 				status ="loss";
 			}
 		}
 		else {
-			resultMessage += "Your Selection: Scissors | ";
+			//resultMessage += userName + ": Scissors \t ";
 			if(randomNum == 1)
 			{
-				resultMessage += "Computer Selection: Paper | YOU WIN! CONGRATULATIONS!";
+				resultMessage += "YOU WIN! CONGRATULATIONS!";
 				status = "win";
 			}
 			else if(randomNum == 3) 
 			{
-				resultMessage += "Computer Selection: Scissors | DRAW! TRY AGAIN!";
+				resultMessage += "DRAW! TRY AGAIN!";
 				status = "draw";
 			}
 			else 
 			{
-				resultMessage += "Computer Selection: Rock | YOU LOSE! TRY AGAIN!";
+				resultMessage += "YOU LOSE! TRY AGAIN!";
 				status ="loss";
 			}
 		}
@@ -146,9 +171,116 @@ public class GameActivity extends ActionBarActivity {
 		return resultMessage;
 	}
 	
-	private void displayResult(String message) {
-        TextView textView = (TextView) findViewById(R.id.textResult);
-        textView.setText(message);
+	private void displayUserImage(int m) {
+        TextView textView = (TextView) findViewById(R.id.textUser);
+        textView.setText(userName);
+		if(m==1){
+		ImageView userImageView = (ImageView) findViewById(R.id.imageUser);
+		Drawable d = getResources().getDrawable(R.drawable.rock);
+		userImageView.setImageDrawable(d);
+		}
+		else if(m==2){
+			ImageView userImageView = (ImageView) findViewById(R.id.imageUser);
+			Drawable d = getResources().getDrawable(R.drawable.paper);
+			userImageView.setImageDrawable(d);
+		}
+		else if(m==3){
+			ImageView userImageView = (ImageView) findViewById(R.id.imageUser);
+			Drawable d = getResources().getDrawable(R.drawable.scissors);
+			userImageView.setImageDrawable(d);
+		}
+	}
+	
+	private void displayComputerImage(int m) {
+        TextView textView = (TextView) findViewById(R.id.textComputer);
+        textView.setText("Computer: ");
+		if(m==1){
+		ImageView userImageView = (ImageView) findViewById(R.id.imageComputer);
+		Drawable d = getResources().getDrawable(R.drawable.rock);
+		userImageView.setImageDrawable(d);
+		}
+		else if(m==2){
+			ImageView userImageView = (ImageView) findViewById(R.id.imageComputer);
+			Drawable d = getResources().getDrawable(R.drawable.paper);
+			userImageView.setImageDrawable(d);
+		}
+		else if(m==3){
+			ImageView userImageView = (ImageView) findViewById(R.id.imageComputer);
+			Drawable d = getResources().getDrawable(R.drawable.scissors);
+			userImageView.setImageDrawable(d);
+		}
+	}
+	
+	@Override
+	public boolean onDown(MotionEvent event) { 
+	Log.d(DEBUG_TAG,"onDown: " + event.toString()); 
+	return true;
+	}
+
+	@Override
+	public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+		String result = game(3);
+		//displayResult(result);
+		displayFinalResults();
+	return true;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent event) {
+	Log.d(DEBUG_TAG, "onLongPress: " + event.toString()); 
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+	    float distanceY) {
+	Log.d(DEBUG_TAG, "onScroll: " + e1.toString()+e2.toString());
+	return true;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent event) {
+	Log.d(DEBUG_TAG, "onShowPress: " + event.toString());
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent event) {
+		
+	return true;
+	}
+
+	@Override
+	public boolean onDoubleTap(MotionEvent event) {
+		String result = game(2);
+		//displayResult(result);
+		displayFinalResults();
+	return true;
+	}
+
+	@Override
+	public boolean onDoubleTapEvent(MotionEvent event) {
+	Log.d(DEBUG_TAG, "onDoubleTapEvent: " + event.toString());
+	return true;
+	}
+	
+	@Override
+	public boolean onSingleTapConfirmed(MotionEvent event) {
+		String result = game(1);
+		//displayResult(result);
+		displayFinalResults();
+	return true;
+	}
+	
+	public void displayFinalResults(){
+		Cursor cursor = myDb.getByName(userName);
+		int wins = cursor.getInt(DBAdapter.COL_WIN);
+		int loss = cursor.getInt(DBAdapter.COL_LOSS);
+		int draws = cursor.getInt(DBAdapter.COL_DRAW);
+		TextView textViewWins = (TextView) findViewById(R.id.textWins);
+        textViewWins.setText("Wins \n"+wins);
+        TextView textViewLoss = (TextView) findViewById(R.id.textLoss);
+        textViewLoss.setText("Loss \n"+loss);
+        TextView textViewDraws = (TextView) findViewById(R.id.textDraws);
+        textViewDraws.setText("Draws \n"+draws);
 	}
 	
 }
