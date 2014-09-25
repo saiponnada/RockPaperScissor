@@ -111,6 +111,7 @@ public class MainActivity extends Activity {
 		Cursor cursor = myDb.getAllRows();
 		displayRecordSet(cursor);
 	}
+	
 	private void displayRecordSet(Cursor cursor) {
 		String message = "";
 		// populate the message from the cursor
