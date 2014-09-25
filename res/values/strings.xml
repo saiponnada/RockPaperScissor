@@ -10,15 +10,16 @@
     <string name="radio_female">Female</string>
     <string name="button_submit">Start Game</string>
     <string name="button_display">Get DB data</string>
+    <string name="button_exit">Exit</string>
     <string name="title_activity_game">GameActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="player"></string>
     <string name="button_scissors">Scissors</string>
     <string name="button_rock">Rock</string>
-     <string name="button_paper">Paper</string>
-     <string name="welcomeString">Welcome! \n Rock ---> Single Tap \n Paper ---> Double tap \n Scissor ---> Swipe </string>
-     <string name="swipeHere">Touch Here ---></string>
-     <string name="wins"></string>
-     <string name="loss"></string>
-     <string name="draws"></string>
+    <string name="button_paper">Paper</string>
+    <string name="welcomeString">Welcome! \n Rock ---> Single Tap \n Paper ---> Double tap \n Scissor ---> Swipe </string>
+    <string name="swipeHere">Touch Here ---></string>
+    <string name="wins"></string>
+    <string name="loss"></string>
+    <string name="draws"></string>
 
 </resources>

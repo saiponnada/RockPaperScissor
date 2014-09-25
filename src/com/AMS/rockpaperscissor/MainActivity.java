@@ -35,7 +35,6 @@ public class MainActivity extends Activity {
 		openDB();
 	}
 	
-	
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub

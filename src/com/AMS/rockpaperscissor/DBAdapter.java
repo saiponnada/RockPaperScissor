@@ -1,16 +1,20 @@
 package com.AMS.rockpaperscissor;
 
+import java.io.File;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.util.Log;
 
 public class DBAdapter {
 
 
 	private static final String TAG = "DBAdapter";
+	public static final String FILE_DIR ="comrps";
 	
 	// DB Fields
 	public static final String KEY_ROWID = "_id";
@@ -33,11 +37,12 @@ public class DBAdapter {
 	
 	public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_NAME, KEY_AGE, KEY_SEX, KEY_WIN, KEY_LOSS, KEY_DRAW};
 	public static final String DATABASE_NAME = "MyDb";
+	//Environment.getExternalStorageDirectory()+ File.separator + FILE_DIR + File.separator +
 	public static final String DATABASE_TABLE = "mainTable";
 	public static final int DATABASE_VERSION = 1;	
 	
 	private static final String DATABASE_CREATE_SQL = 
-			"create table " + DATABASE_TABLE 
+			"create table " + DATABASE_TABLE 		
 			+ " (" + KEY_ROWID + " integer primary key autoincrement, "
 			+ KEY_NAME + " text not null, "
 			+ KEY_AGE + " integer not null, "

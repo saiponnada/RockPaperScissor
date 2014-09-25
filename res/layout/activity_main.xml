@@ -24,13 +24,16 @@
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:hint="@string/edit_name" />
+            android:hint="@string/edit_name"
+            android:maxLength="8" />
 
 	    <EditText
 	        android:id="@+id/edit_age"
 	        android:layout_width="230dp"
 	        android:layout_height="wrap_content"
-	        android:hint="@string/edit_age" />
+	        android:hint="@string/edit_age"
+	        android:inputType="number"
+	        android:maxLength="2" />
 
 		<RadioGroup
 	        android:id="@+id/radioSex"

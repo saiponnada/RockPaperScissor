@@ -4,8 +4,10 @@ import java.util.Random;
 
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class GameActivity extends ActionBarActivity implements 
@@ -31,6 +35,9 @@ GestureDetector.OnDoubleTapListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
+		RelativeLayout relativeLayout = (RelativeLayout)findViewById(R.id.GameContainer);
+		relativeLayout.setBackgroundColor(Color.parseColor("#fff6df"));
+		relativeLayout.invalidate();
 		Intent intent = getIntent();
 		userName = intent.getStringExtra(MainActivity.NAME).toString();
 		openDB();
@@ -117,17 +124,17 @@ GestureDetector.OnDoubleTapListener{
 			else if(randomNum == 1)
 			{
 				resultMessage += "DRAW! TRY AGAIN!";
-				status = "win";
+				status = "draw";
 			}
 			else 
 			{
 				resultMessage += "YOU WIN! CONGRATULATIONS!";
-				status = "draw";
+				status = "win";
 			}		
 		}
 		else if(userSelection == 2){
 			//resultMessage += userName + ": Paper \t ";
-			if(randomNum == 3) 
+			if(randomNum == 1) 
 			{
 				resultMessage += "YOU WIN! CONGRATULATIONS!";
 				status = "win";
@@ -145,7 +152,7 @@ GestureDetector.OnDoubleTapListener{
 		}
 		else {
 			//resultMessage += userName + ": Scissors \t ";
-			if(randomNum == 1)
+			if(randomNum == 2)
 			{
 				resultMessage += "YOU WIN! CONGRATULATIONS!";
 				status = "win";
@@ -168,6 +175,10 @@ GestureDetector.OnDoubleTapListener{
 		{
 			e.printStackTrace();
 		}
+		final Dialog dialog = new Dialog(this);
+		dialog.setTitle(resultMessage);
+		dialog.show();
+				
 		return resultMessage;
 	}
 	
@@ -213,7 +224,7 @@ GestureDetector.OnDoubleTapListener{
 	
 	@Override
 	public boolean onDown(MotionEvent event) { 
-	Log.d(DEBUG_TAG,"onDown: " + event.toString()); 
+	//Log.d(DEBUG_TAG,"onDown: " + event.toString()); 
 	return true;
 	}
 
@@ -227,19 +238,19 @@ GestureDetector.OnDoubleTapListener{
 
 	@Override
 	public void onLongPress(MotionEvent event) {
-	Log.d(DEBUG_TAG, "onLongPress: " + event.toString()); 
+	//Log.d(DEBUG_TAG, "onLongPress: " + event.toString()); 
 	}
 
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 	    float distanceY) {
-	Log.d(DEBUG_TAG, "onScroll: " + e1.toString()+e2.toString());
+	//Log.d(DEBUG_TAG, "onScroll: " + e1.toString()+e2.toString());
 	return true;
 	}
 
 	@Override
 	public void onShowPress(MotionEvent event) {
-	Log.d(DEBUG_TAG, "onShowPress: " + event.toString());
+	//Log.d(DEBUG_TAG, "onShowPress: " + event.toString());
 	}
 
 	@Override
@@ -258,7 +269,7 @@ GestureDetector.OnDoubleTapListener{
 
 	@Override
 	public boolean onDoubleTapEvent(MotionEvent event) {
-	Log.d(DEBUG_TAG, "onDoubleTapEvent: " + event.toString());
+	//Log.d(DEBUG_TAG, "onDoubleTapEvent: " + event.toString());
 	return true;
 	}
 	
@@ -276,11 +287,22 @@ GestureDetector.OnDoubleTapListener{
 		int loss = cursor.getInt(DBAdapter.COL_LOSS);
 		int draws = cursor.getInt(DBAdapter.COL_DRAW);
 		TextView textViewWins = (TextView) findViewById(R.id.textWins);
+		textViewWins.setTextColor(Color.GREEN);
         textViewWins.setText("Wins \n"+wins);
         TextView textViewLoss = (TextView) findViewById(R.id.textLoss);
+        textViewLoss.setTextColor(Color.RED);
         textViewLoss.setText("Loss \n"+loss);
         TextView textViewDraws = (TextView) findViewById(R.id.textDraws);
+        textViewDraws.setTextColor(Color.BLUE);
         textViewDraws.setText("Draws \n"+draws);
+	}
+	
+	public void onExit(View view)
+	{
+		Intent intent = new Intent(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_HOME);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
 	}
 	
 }

@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/GameContainer"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -44,6 +45,13 @@
         android:layout_centerHorizontal="true"
         android:text="@string/loss"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+    <Button
+	        android:id="@+id/btnExit"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:onClick="onExit"
+	        android:text="@string/button_exit" />
 
     <TextView
         android:id="@+id/textDraws"
@@ -87,7 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/textDraws"
         android:layout_alignTop="@+id/imageUser"
-        android:src="@drawable/paper" />
+        android:src="@drawable/abc_ab_stacked_transparent_light_holo"/>
 
     <TextView
         android:id="@+id/textComputer"
@@ -95,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textUser"
         android:layout_toLeftOf="@+id/imageComputer"
-        android:text="@string/hello_world"
+        android:text="@string/player"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -105,7 +113,7 @@
         android:layout_above="@+id/textWins"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="57dp"
-        android:text="@string/hello_world"
+        android:text="@string/player"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageView
@@ -115,6 +123,7 @@
         android:layout_above="@+id/textLoss"
         android:layout_marginBottom="42dp"
         android:layout_toLeftOf="@+id/textLoss"
-        android:src="@drawable/scissors" />
+        android:src="@drawable/abc_ab_stacked_transparent_light_holo" />
+
 
 </RelativeLayout>
